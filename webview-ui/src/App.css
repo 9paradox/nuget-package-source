@@ -1,0 +1,92 @@
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.mb-16 {
+  margin-bottom: 16px;
+}
+
+.page-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  padding: 4px 10px 10px 10px;
+}
+
+.page-content {
+  max-height: calc(70vh - 100px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: auto;
+}
+
+.page-footer {
+  max-height: calc(30vh - 68px);
+  min-height: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  margin: 4px;
+  min-width: 100%;
+  cursor: pointer;
+}
+
+.list-item:hover {
+  background: linear-gradient(
+    90deg,
+    var(--vscode-activityBar-activeBorder) 0%,
+    rgba(255, 255, 255, 0) 1%
+  );
+}
+
+.list-item-active {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  margin: 4px;
+  min-width: 100%;
+  cursor: pointer;
+  background: var(--vscode-button-hoverBackground);
+  color: var(--vscode-button-foreground);
+}
+
+.list-item-active:hover {
+  background: var(--vscode-button-hoverBackground);
+}
+
+.list-item-checkbox {
+  margin-right: 10px;
+}
+
+.list-box {
+  padding: 8px;
+  width: 90%;
+}
+
+.text-center {
+  text-align: center;
+}

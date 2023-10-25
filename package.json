@@ -1,0 +1,63 @@
+{
+  "name": "nuget-package-source",
+  "displayName": "Nuget Package Source",
+  "description": "A Visual Studio Code extension to manage Nuget Package Sources",
+  "version": "0.0.1",
+  "publisher": "9paradox",
+  "author": "Akshay Gaonkar (9paradox)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/9paradox/nuget-package-source.git"
+  },
+  "homepage": "https://github.com/9paradox/nuget-package-source",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "nugetPackageSourceSidebarView",
+          "title": "Nuget Package Source",
+          "icon": "assets/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "nugetPackageSourceSidebarView": [
+        {
+          "type": "webview",
+          "id": "nugetPackageSourceSidebarId",
+          "name": "Nuget Package Source",
+          "icon": "assets/icon.svg",
+          "contextualTitle": "Nuget Package Source"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "install:all": "npm install && cd webview-ui && npm install",
+    "start:webview": "cd webview-ui && npm run start",
+    "build:webview": "cd webview-ui && npm run build",
+    "build:all": "npm run compile && cd webview-ui && npm run build",
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.3",
+    "@types/node": "^12.11.7",
+    "@types/vscode": "^1.46.0",
+    "@typescript-eslint/eslint-plugin": "^4.14.1",
+    "@typescript-eslint/parser": "^4.14.1",
+    "eslint": "^7.19.0",
+    "glob": "^7.1.6",
+    "prettier": "^2.2.1",
+    "typescript": "^4.1.3",
+    "vscode-test": "^1.5.0"
+  }
+}
