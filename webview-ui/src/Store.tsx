@@ -13,8 +13,8 @@ export const usePackageSources = () => {
     fetch();
 
     window.addEventListener("message", (event) => {
-      console.log(event);
-      if (event?.data?.command?.type == "command") {
+      console.log("usePackageSources.message", event);
+      if (event?.data?.type == "command") {
         handleEvent(event);
       }
     });
@@ -22,13 +22,66 @@ export const usePackageSources = () => {
 
   function fetch() {
     setIsLoading(true);
-    vscode.postMessage({
+
+    vscode.postCommand({
       type: "command",
-      value: "list",
+      command: "list",
+      value: "",
+    });
+  }
+
+  function add(packageSource: PackageSource) {
+    setIsLoading(true);
+
+    vscode.postCommand({
+      type: "command",
+      command: "add",
+      value: packageSource,
+    });
+  }
+
+  function remove(packageSource: PackageSource) {
+    setIsLoading(true);
+
+    vscode.postCommand({
+      type: "command",
+      command: "remove",
+      value: packageSource,
+    });
+  }
+
+  function update(packageSource: PackageSource) {
+    setIsLoading(true);
+
+    vscode.postCommand({
+      type: "command",
+      command: "update",
+      value: packageSource,
+    });
+  }
+
+  function enable(packageSource: PackageSource) {
+    setIsLoading(true);
+
+    vscode.postCommand({
+      type: "command",
+      command: "enable",
+      value: packageSource,
+    });
+  }
+
+  function disable(packageSource: PackageSource) {
+    setIsLoading(true);
+
+    vscode.postCommand({
+      type: "command",
+      command: "disable",
+      value: packageSource,
     });
   }
 
   function handleList(result: Result<PackageSource[]>) {
+    console.log("handleList", result);
     if (!result || !result.data) {
       vscode.postMessage({
         type: "onError",
@@ -43,11 +96,91 @@ export const usePackageSources = () => {
     setIsLoading(false);
   }
 
+  function handleAdd(result: Result<boolean>) {
+    if (!result || !result.data) {
+      vscode.postMessage({
+        type: "onError",
+        value: result.error ?? "Error while adding package sources",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    fetch();
+  }
+
+  function handleRemove(result: Result<boolean>) {
+    if (!result || !result.data) {
+      vscode.postMessage({
+        type: "onError",
+        value: result.error ?? "Error while removing package sources",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    fetch();
+  }
+
+  function handleUpdate(result: Result<boolean>) {
+    if (!result || !result.data) {
+      vscode.postMessage({
+        type: "onError",
+        value: result.error ?? "Error while updating package sources",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    fetch();
+  }
+
+  function handleEnable(result: Result<boolean>) {
+    if (!result || !result.data) {
+      vscode.postMessage({
+        type: "onError",
+        value: result.error ?? "Error while enabling package sources",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    fetch();
+  }
+
+  function handleDisable(result: Result<boolean>) {
+    if (!result || !result.data) {
+      vscode.postMessage({
+        type: "onError",
+        value: result.error ?? "Error while disabling package sources",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    fetch();
+  }
+
   function handleEvent(event: MessageEvent<any>) {
     try {
-      switch (event.data.command.value) {
+      switch (event.data.command) {
         case "list":
           handleList(event.data.value);
+          break;
+        case "add":
+          handleAdd(event.data.value);
+          break;
+        case "remove":
+          handleRemove(event.data.value);
+          break;
+        case "update":
+          handleUpdate(event.data.value);
+          break;
+        case "enable":
+          handleEnable(event.data.value);
+          break;
+        case "disable":
+          handleDisable(event.data.value);
           break;
       }
     } catch (e: unknown) {
@@ -55,13 +188,18 @@ export const usePackageSources = () => {
         type: "onError",
         value: "Some error occurred",
       });
-      console.error("asd", e);
+      console.error("handleEvent.error", e);
     }
   }
 
   return {
     packageSources,
     fetch,
+    add,
+    remove,
+    update,
+    enable,
+    disable,
     isLoading,
   };
 };

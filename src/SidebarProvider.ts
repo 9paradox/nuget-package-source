@@ -1,7 +1,8 @@
 import * as vscode from "vscode";
 import { getUri } from "./utilities/getUri";
 import { getNonce } from "./utilities/getNonce";
-import { PackageSource, Result } from "./types";
+import packageSourceRepository from "./Repository";
+import { PostCommandMessage } from "./types";
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
   _view?: vscode.WebviewView;
@@ -25,16 +26,11 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
 
     // Listen for messages from the Sidebar component and execute action
-    webviewView.webview.onDidReceiveMessage(async (data) => {
+    webviewView.webview.onDidReceiveMessage(async (data: PostCommandMessage) => {
       switch (data.type) {
         case "command": {
-          const value: Result<PackageSource[]> = {
-            data: [{ title: "package 1", path: "c://package/source", checked: false }],
-          };
-          webviewView.webview.postMessage({
-            command: data,
-            value: value,
-          });
+          console.log("SidebarProvider.onDidReceiveMessage", data);
+          await this.handleCommand(data, webviewView.webview);
           break;
         }
         case "onInfo": {
@@ -53,8 +49,69 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         }
       }
     });
+  }
 
-    webviewView.webview.postMessage("start lol");
+  private async handleCommand(data: PostCommandMessage, webview: vscode.Webview) {
+    if (!data.command) {
+      return;
+    }
+    var value = null;
+    try {
+      switch (data.command) {
+        case "list":
+          value = await packageSourceRepository.list();
+          break;
+
+        case "add":
+          value = await packageSourceRepository.add({
+            title: data.value.title,
+            path: data.value.path,
+            checked: data.value.checked,
+          });
+          break;
+
+        case "remove":
+          value = await packageSourceRepository.remove({
+            title: data.value.title,
+            path: data.value.path,
+            checked: data.value.checked,
+          });
+          break;
+
+        case "update":
+          value = await packageSourceRepository.update({
+            title: data.value.title,
+            path: data.value.path,
+            checked: data.value.checked,
+          });
+          break;
+
+        case "enable":
+          value = await packageSourceRepository.enable({
+            title: data.value.title,
+            path: data.value.path,
+            checked: data.value.checked,
+          });
+          break;
+
+        case "disable":
+          value = await packageSourceRepository.disable({
+            title: data.value.title,
+            path: data.value.path,
+            checked: data.value.checked,
+          });
+          break;
+      }
+
+      console.log("SidebarProvider.handleCommand", value);
+      webview.postMessage({
+        type: data.type,
+        command: data.command,
+        value: value,
+      });
+    } catch (e) {
+      console.error("SidebarProvider.handleCommand", e);
+    }
   }
 
   public revive(panel: vscode.WebviewView) {
