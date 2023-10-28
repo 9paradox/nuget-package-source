@@ -6,7 +6,7 @@ import { PackageSource } from "../types";
 import { usePackageSources } from "../Store";
 
 function Home() {
-  const { packageSources } = usePackageSources();
+  const { packageSources, isLoading } = usePackageSources();
   const [selectedPackageSource, setSelectedPackageSource] = useState<PackageSource | null>(null);
 
   return (
@@ -40,6 +40,11 @@ function Home() {
           <SourceForm packageSource={selectedPackageSource} />
         </div>
       </footer>
+      {isLoading && (
+        <div className="overlay-loading">
+          <p>Loading...</p>
+        </div>
+      )}
     </>
   );
 }
