@@ -1,5 +1,10 @@
 import type { WebviewApi } from "vscode-webview";
 
+interface PostMessage {
+  type: "command" | "onInfo" | "onError";
+  value: string;
+}
+
 /**
  * A utility wrapper around the acquireVsCodeApi() function, which enables
  * message passing and state management between the webview and extension
@@ -28,7 +33,7 @@ class VSCodeAPIWrapper {
    *
    * @param message Abitrary data (must be JSON serializable) to send to the extension context.
    */
-  public postMessage(message: unknown) {
+  public postMessage(message: PostMessage) {
     if (this.vsCodeApi) {
       this.vsCodeApi.postMessage(message);
     } else {

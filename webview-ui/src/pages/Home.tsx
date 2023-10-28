@@ -3,20 +3,11 @@ import { useState } from "react";
 import ListItem from "../components/ListItem";
 import SourceForm from "../components/SourceForm";
 import { PackageSource } from "../types";
+import { usePackageSources } from "../Store";
 
 function Home() {
-  const [packageSources, setPackageSources] = useState<PackageSource[]>([]);
+  const { packageSources } = usePackageSources();
   const [selectedPackageSource, setSelectedPackageSource] = useState<PackageSource | null>(null);
-
-  function updatePackageOnSelected(source: PackageSource) {
-    setPackageSources(
-      packageSources.map((s) => {
-        s.selected = source.title === s.title;
-        return s;
-      })
-    );
-    setSelectedPackageSource(source);
-  }
 
   return (
     <>
@@ -35,9 +26,9 @@ function Home() {
             <ListItem
               title={source.title}
               checked={source.checked}
-              selected={source.selected}
+              selected={selectedPackageSource?.title == source.title}
               path={source.path}
-              onClick={() => updatePackageOnSelected(source)}
+              onClick={() => setSelectedPackageSource(source)}
             />
           ))}
         </div>

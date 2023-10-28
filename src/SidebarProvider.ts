@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { getUri } from "./utilities/getUri";
 import { getNonce } from "./utilities/getNonce";
+import { PackageSource, Result } from "./types";
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
   _view?: vscode.WebviewView;
@@ -26,6 +27,16 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     // Listen for messages from the Sidebar component and execute action
     webviewView.webview.onDidReceiveMessage(async (data) => {
       switch (data.type) {
+        case "command": {
+          const value: Result<PackageSource[]> = {
+            data: [{ title: "package 1", path: "c://package/source", checked: false }],
+          };
+          webviewView.webview.postMessage({
+            command: data,
+            value: value,
+          });
+          break;
+        }
         case "onInfo": {
           if (!data.value) {
             return;
@@ -42,6 +53,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         }
       }
     });
+
+    webviewView.webview.postMessage("start lol");
   }
 
   public revive(panel: vscode.WebviewView) {
