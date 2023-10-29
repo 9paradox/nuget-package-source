@@ -13,7 +13,6 @@ export const usePackageSources = () => {
     fetch();
 
     window.addEventListener("message", (event) => {
-      console.log("usePackageSources.message", event);
       if (event?.data?.type == "command") {
         handleEvent(event);
       }
@@ -81,7 +80,6 @@ export const usePackageSources = () => {
   }
 
   function handleList(result: Result<PackageSource[]>) {
-    console.log("handleList", result);
     if (!result || !result.data) {
       vscode.postMessage({
         type: "onError",
@@ -106,6 +104,11 @@ export const usePackageSources = () => {
       return;
     }
 
+    vscode.postMessage({
+      type: "onInfo",
+      value: "New package source added successfully",
+    });
+
     fetch();
   }
 
@@ -118,6 +121,11 @@ export const usePackageSources = () => {
       setIsLoading(false);
       return;
     }
+
+    vscode.postMessage({
+      type: "onInfo",
+      value: "Package source removed successfully",
+    });
 
     fetch();
   }
@@ -132,6 +140,11 @@ export const usePackageSources = () => {
       return;
     }
 
+    vscode.postMessage({
+      type: "onInfo",
+      value: "Package source updated successfully",
+    });
+
     fetch();
   }
 
@@ -145,6 +158,11 @@ export const usePackageSources = () => {
       return;
     }
 
+    vscode.postMessage({
+      type: "onInfo",
+      value: "Package source enabled successfully",
+    });
+
     fetch();
   }
 
@@ -157,6 +175,11 @@ export const usePackageSources = () => {
       setIsLoading(false);
       return;
     }
+
+    vscode.postMessage({
+      type: "onInfo",
+      value: "Package source disabled successfully",
+    });
 
     fetch();
   }

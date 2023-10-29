@@ -15,7 +15,7 @@ function Home() {
     setSelectedPackageSource({
       title: "",
       path: "",
-      checked: true,
+      checked: false,
     });
   }
 
@@ -57,7 +57,7 @@ function Home() {
           </VSCodeButton>
           <VSCodeButton
             appearance="secondary"
-            disabled={!selectedPackageSource}
+            disabled={!selectedPackageSource || isAdd}
             onClick={removePackage}>
             Delete
           </VSCodeButton>
@@ -87,7 +87,7 @@ function Home() {
           {selectedPackageSource ? (
             <SourceForm packageSource={selectedPackageSource} onSubmit={formSubmit} />
           ) : (
-            <p className="text-center">No package selected</p>
+            <p className="text-center"> {isLoading ? "..." : "No package selected"}</p>
           )}
         </div>
       </footer>

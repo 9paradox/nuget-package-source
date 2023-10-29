@@ -29,7 +29,6 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     webviewView.webview.onDidReceiveMessage(async (data: PostCommandMessage) => {
       switch (data.type) {
         case "command": {
-          console.log("SidebarProvider.onDidReceiveMessage", data);
           await this.handleCommand(data, webviewView.webview);
           break;
         }
@@ -109,8 +108,6 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           });
           break;
       }
-
-      console.log("SidebarProvider.handleCommand", value);
       webview.postMessage({
         type: data.type,
         command: data.command,
