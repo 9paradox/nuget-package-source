@@ -3,7 +3,7 @@ import { PackageSource, Result } from "./types";
 interface IPackageSourceRepository {
   list: () => Promise<Result<PackageSource[]>>;
   add: (source: PackageSource) => Promise<Result<boolean>>;
-  update: (source: PackageSource) => Promise<Result<boolean>>;
+  update: (oldSource: PackageSource, newSource: PackageSource) => Promise<Result<boolean>>;
   remove: (source: PackageSource) => Promise<Result<boolean>>;
   enable: (source: PackageSource) => Promise<Result<boolean>>;
   disable: (source: PackageSource) => Promise<Result<boolean>>;
@@ -23,9 +23,9 @@ const fakeRepo: IPackageSourceRepository = {
     fakePackageSources.push(source);
     return { data: true };
   },
-  update: async (source: PackageSource) => {
-    const index = fakePackageSources.findIndex((s) => s.title === source.title);
-    fakePackageSources[index] = source;
+  update: async (oldSource: PackageSource, newSource: PackageSource) => {
+    const index = fakePackageSources.findIndex((s) => s.title === oldSource.title);
+    fakePackageSources[index] = newSource;
     return { data: true };
   },
   remove: async (source: PackageSource) => {

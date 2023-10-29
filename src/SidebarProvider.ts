@@ -79,11 +79,18 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           break;
 
         case "update":
-          value = await packageSourceRepository.update({
-            title: data.value.title,
-            path: data.value.path,
-            checked: data.value.checked,
-          });
+          value = await packageSourceRepository.update(
+            {
+              title: data.value.old.title,
+              path: data.value.old.path,
+              checked: data.value.old.checked,
+            },
+            {
+              title: data.value.new.title,
+              path: data.value.new.path,
+              checked: data.value.new.checked,
+            }
+          );
           break;
 
         case "enable":

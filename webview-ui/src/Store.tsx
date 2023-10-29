@@ -50,13 +50,13 @@ export const usePackageSources = () => {
     });
   }
 
-  function update(packageSource: PackageSource) {
+  function update(oldPackageSource: PackageSource, packageSource: PackageSource) {
     setIsLoading(true);
 
     vscode.postCommand({
       type: "command",
       command: "update",
-      value: packageSource,
+      value: { old: oldPackageSource, new: packageSource },
     });
   }
 
