@@ -21,7 +21,7 @@
         {
           "id": "nugetPackageSourceSidebarView",
           "title": "Nuget Package Source",
-          "icon": "assets/icon.svg"
+          "icon": "assets/icon.png"
         }
       ]
     },
@@ -31,7 +31,7 @@
           "type": "webview",
           "id": "nugetPackageSourceSidebarId",
           "name": "Nuget Package Source",
-          "icon": "assets/icon.svg",
+          "icon": "assets/icon.png",
           "contextualTitle": "Nuget Package Source"
         }
       ]
