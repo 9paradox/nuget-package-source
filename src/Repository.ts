@@ -1,3 +1,4 @@
+import { add, disable, enable, list, remove, update } from "./NugetSourceCommands";
 import { PackageSource, Result } from "./types";
 
 interface IPackageSourceRepository {
@@ -55,6 +56,39 @@ const fakeRepo: IPackageSourceRepository = {
   },
 };
 
-const packageSourceRepository: IPackageSourceRepository = fakeRepo;
+const cliRepo: IPackageSourceRepository = {
+  list: async () => {
+    const result = await list();
+    console.log("cli-list", result);
+    return result;
+  },
+  add: async (source: PackageSource) => {
+    const result = await add(source);
+    console.log("cli-add", result);
+    return result;
+  },
+  update: async (oldSource: PackageSource, newSource: PackageSource) => {
+    const result = await update(oldSource, newSource);
+    console.log("cli-update", result);
+    return result;
+  },
+  remove: async (source: PackageSource) => {
+    const result = await remove(source);
+    console.log("cli-remove", result);
+    return result;
+  },
+  enable: async (source: PackageSource) => {
+    const result = await enable(source);
+    console.log("cli-enable", result);
+    return result;
+  },
+  disable: async (source: PackageSource) => {
+    const result = await disable(source);
+    console.log("cli-disable", result);
+    return result;
+  },
+};
+
+const packageSourceRepository: IPackageSourceRepository = cliRepo;
 
 export default packageSourceRepository;
