@@ -5,11 +5,13 @@ import SourceForm from "../components/SourceForm";
 import { PackageSource } from "../types";
 import { usePackageSources } from "../Store";
 import LoadingOverlay from "../components/LoadingOverlay";
+import ConfirmDeleteOverlay from "../components/ConfirmOverlay";
 
 function Home() {
   const { packageSources, isLoading, add, remove, update } = usePackageSources();
   const [selectedPackageSource, setSelectedPackageSource] = useState<PackageSource | null>(null);
   const [isAdd, setIsAdd] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
 
   function onAddClick() {
     setIsAdd(true);
@@ -33,12 +35,23 @@ function Home() {
     setSelectedPackageSource(null);
   }
 
+  function onDeleteClick() {
+    if (!selectedPackageSource) return;
+    setIsDelete(true);
+    setIsAdd(false);
+  }
+
   function removePackage() {
     if (!selectedPackageSource) return;
-    //TODO: confirm before remove
-    remove(selectedPackageSource);
+    if (!isDelete) return;
     setIsAdd(false);
+    setIsDelete(false);
+    remove(selectedPackageSource);
     setSelectedPackageSource(null);
+  }
+
+  function onCancelDeleteClick() {
+    setIsDelete(false);
   }
 
   function formSubmit(source: PackageSource) {
@@ -59,7 +72,7 @@ function Home() {
           <VSCodeButton
             appearance="secondary"
             disabled={!selectedPackageSource || isAdd}
-            onClick={removePackage}>
+            onClick={onDeleteClick}>
             Delete
           </VSCodeButton>
         </div>
@@ -92,6 +105,9 @@ function Home() {
           )}
         </div>
       </footer>
+      {isDelete && selectedPackageSource && (
+        <ConfirmDeleteOverlay onDelete={removePackage} onCancel={onCancelDeleteClick} />
+      )}
       {isLoading && <LoadingOverlay />}
     </>
   );
