@@ -1,19 +1,23 @@
 # Nuget Package Source
 
-Visual Studio Code extension to manage Nuget Package Sources
+Visual Studio Code extension to manage Nuget Package Sources.
 
-🛠️ This project is in work in progress. 🛠️
+## Features
+
+- 📃 Show all sources
+- ➕ Add source
+- ❌ Remove source
+- ✏️ Update source
+- ☑️ Enable source
+- ⬛ Disable source
+
 
 ![Nuget Package Sources vscode extension](./assets/extension.png)
 
-## Development
+## Contribution
 
-```bash
-# Install dependencies for both the extension and webview UI source code
-npm run install:all
+Contributions are always welcome.
 
-# Build webview UI and extension source code
-npm run build:all
-```
+## License
 
-Press `F5` to open a new Extension Development Host window
+[MIT](https://choosealicense.com/licenses/mit/)
