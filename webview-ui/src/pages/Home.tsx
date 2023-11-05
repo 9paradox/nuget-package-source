@@ -4,6 +4,7 @@ import ListItem from "../components/ListItem";
 import SourceForm from "../components/SourceForm";
 import { PackageSource } from "../types";
 import { usePackageSources } from "../Store";
+import LoadingOverlay from "../components/LoadingOverlay";
 
 function Home() {
   const { packageSources, isLoading, add, remove, update } = usePackageSources();
@@ -91,16 +92,7 @@ function Home() {
           )}
         </div>
       </footer>
-      {isLoading && (
-        <div
-          className="overlay-loading"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}>
-          <p>Loading...</p>
-        </div>
-      )}
+      {isLoading && <LoadingOverlay />}
     </>
   );
 }
