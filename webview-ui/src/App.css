@@ -80,10 +80,10 @@ body {
 
 .list-item-checkbox {
   margin-right: 10px;
+  pointer-events: none;
 }
 
 .list-box {
-  padding: 8px;
   width: 90%;
 }
 
