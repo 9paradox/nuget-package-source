@@ -2,7 +2,7 @@
   "name": "nuget-package-source",
   "displayName": "Nuget Package Source",
   "description": "A Visual Studio Code extension to manage Nuget Package Sources",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "9paradox",
   "author": "Akshay Gaonkar (9paradox)",
   "license": "MIT",
