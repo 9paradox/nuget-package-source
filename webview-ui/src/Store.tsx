@@ -32,6 +32,19 @@ export const usePackageSources = () => {
   function add(packageSource: PackageSource) {
     setIsLoading(true);
 
+    if (
+      packageSources.find(
+        (s) => s.path.toLocaleLowerCase() == packageSource.path.toLocaleLowerCase()
+      )
+    ) {
+      vscode.postMessage({
+        type: "onError",
+        value: "Package with same source already exists",
+      });
+      setIsLoading(false);
+      return;
+    }
+
     vscode.postCommand({
       type: "command",
       command: "add",
@@ -51,6 +64,20 @@ export const usePackageSources = () => {
 
   function update(oldPackageSource: PackageSource, packageSource: PackageSource) {
     setIsLoading(true);
+    
+    if (
+      oldPackageSource.path.toLocaleLowerCase() != packageSource.path.toLocaleLowerCase() &&
+      packageSources.find(
+        (s) => s.path.toLocaleLowerCase() == packageSource.path.toLocaleLowerCase()
+      )
+    ) {
+      vscode.postMessage({
+        type: "onError",
+        value: "Package with same source already exists",
+      });
+      setIsLoading(false);
+      return;
+    }
 
     vscode.postCommand({
       type: "command",
