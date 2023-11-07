@@ -11,6 +11,7 @@ Visual Studio Code extension to manage Nuget Package Sources.
 - ☑️ Enable source
 - ⬛ Disable source
 
+[Download](https://marketplace.visualstudio.com/items?itemName=9paradox.nuget-package-source) from Visual Studio Code marketplace.
 
 ![Nuget Package Sources vscode extension](./assets/extension.png)
 
